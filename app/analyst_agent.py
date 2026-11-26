@@ -36,13 +36,13 @@ _agent = create_react_agent(
     ),
 )
 
-def analyst_node(state: State) -> dict:
+async def analyst_node(state: State) -> dict:
     prompt = (
         f"{state['instruction']}\n\n"
         f"DATOS A ANALIZAR:\n{state.get('research_output')}"
     )
 
-    result = _agent.invoke({"messages": [("user", prompt)]})
+    result = await _agent.ainvoke({"messages": [("user", prompt)]})
 
     output = text_of(result["messages"][-1].content)
 

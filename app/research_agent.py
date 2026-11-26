@@ -14,8 +14,8 @@ _agent = create_react_agent(
     ),
 )
 
-def research_node(state: State) -> dict:
-    result = _agent.invoke({"messages": [("user", state["instruction"])]})
+async def research_node(state: State) -> dict:
+    result = await _agent.ainvoke({"messages": [("user", state["instruction"])]})
     output = text_of(result["messages"][-1].content)
     return {
         "research_output": output,

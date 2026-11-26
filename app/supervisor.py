@@ -34,13 +34,13 @@ Consulta original: {task}"""
 
 _llm = get_llm().with_structured_output(Decision)
 
-def supervisor_node(state: State) -> dict:
+async def supervisor_node(state: State) -> dict:
     step = state.get("step_count", 0) + 1
 
-    if step > MAX_STEPS:  # condición de parada dura
+    if step > MAX_STEPS:
         return {"next_agent": "FINISH", "step_count": step}
 
-    d = _llm.invoke([
+    d = await _llm.ainvoke([
         ("system", SYSTEM.format(
             research=state.get("research_output") or "(vacío)",
             analysis=state.get("analysis_output") or "(vacío)",
